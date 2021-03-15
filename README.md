@@ -38,12 +38,110 @@ Dangerous could mean either of these:
 
 ## Overview of the dangerous functions
 
+### [`forkIO`](https://hackage.haskell.org/package/base-4.14.1.0/docs/Control-Concurrent.html#v:forkIO)
+
+TL;DR: Using `forkIO` is _VERY_ hard to get right, use the async library instead.
+
+The main issue is that when threads spawned using `forkIO` throw an exception, this exception is not rethrown in the thread that spawned that thread.
+
+As an example, suppose we `forkIO` a server and something goes wrong.
+The main thread will not notice that anything went wrong.
+The only indication that an exception was thrown will be that something is printed on `stderr`. 
+
+``` haskell
+$ cat test.hs
+#!/usr/bin/env stack
+-- stack --resolver lts-15.15 script
+{-# LANGUAGE NumericUnderscores #-}
+import Control.Concurrent
+main :: IO ()
+main = do
+  putStrLn "Starting our 'server'."
+  forkIO $ do            
+    putStrLn "Serving..."
+    threadDelay 1_000_000
+    putStrLn "Oh no, about to crash!"
+    threadDelay 1_000_000
+    putStrLn "Aaaargh"
+    undefined
+  threadDelay 5_000_000
+  putStrLn "Still running, eventhough we crashed"
+  threadDelay 5_000_000                 
+  putStrLn "Ok that's enough of that, stopping here."
+```
+
+Which outputs:
+
+```
+$ ./test.hs
+Starting our 'server'.
+Serving...
+Oh no, about to crash!
+Aaaargh
+test.hs: Prelude.undefined
+CallStack (from HasCallStack):
+  error, called at libraries/base/GHC/Err.hs:80:14 in base:GHC.Err
+  undefined, called at /home/syd/test/test.hs:17:5 in main:Main
+Still running, eventhough we crashed
+Ok that's enough of that, stopping here.
+```
+
+Instead, we can use [`concurrently_` from the `async` package](http://hackage.haskell.org/package/async-2.2.3/docs/Control-Concurrent-Async.html#v:concurrently_):
+
+``` haskell
+$ cat test.hs
+-- stack --resolver lts-15.15 script
+
+{-# LANGUAGE NumericUnderscores #-}
+
+import Control.Concurrent
+import Control.Concurrent.Async
+
+main :: IO ()
+main = do
+  putStrLn "Starting our 'server'."
+  let runServer = do
+        putStrLn "Serving..."
+        threadDelay 1_000_000
+        putStrLn "Oh no, about to crash!"
+        threadDelay 1_000_000
+        putStrLn "Aaaargh"
+        undefined
+  let mainThread = do
+        threadDelay 5_000_000
+        putStrLn "Still running, eventhough we crashed"
+        threadDelay 5_000_000
+        putStrLn "Ok that's enough of that, stopping here."
+  concurrently_ runServer mainThread
+```
+
+to output:
+
+```
+$ ./test.hs
+Starting our 'server'.
+Serving...
+Oh no, about to crash!
+Aaaargh
+test.hs: Prelude.undefined
+CallStack (from HasCallStack):
+  error, called at libraries/base/GHC/Err.hs:80:14 in base:GHC.Err
+  undefined, called at /home/syd/test.hs:18:9 in main:Main
+```
+
+See also:
+
+* https://github.com/informatikr/hedis/issues/165
+* https://github.com/hreinhardt/amqp/issues/96
+
+## Dangerous functions about which no explanation has been written yet
+
 TODO: This section isn't finished yet.
 
 ### Memory-unsafe functions
 #### `unsafeDupablePerformIO`
 
-TODO: Unsafe
+TODO: Unsafe",
 
 #### `unsafeInterleaveIO`
 
@@ -59,10 +157,6 @@ TODO: Unsafe
 
 ### Functions with issues related to threading
 
-#### `forkIO`
-
-_VERY_ hard to get right, use the async library instead.
-See also https://github.com/informatikr/hedis/issues/165
 
 #### `forkProcess`
 
