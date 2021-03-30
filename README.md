@@ -134,6 +134,61 @@ See also:
 * https://github.com/informatikr/hedis/issues/165
 * https://github.com/hreinhardt/amqp/issues/96
 
+### Partial functions
+
+#### `head`
+
+Throws an exception in pure code when the input is an empty list.
+
+```
+Prelude> head []
+*** Exception: Prelude.head: empty list
+```
+
+#### `tail`
+
+Throws an exception in pure code when the input is an empty list.
+
+```
+Prelude> tail []
+*** Exception: Prelude.tail: empty list
+```
+
+#### `init`
+
+Throws an exception in pure code when the input is an empty list.
+
+```
+Prelude> init []
+*** Exception: Prelude.init: empty list
+```
+
+#### `last`
+
+Throws an exception in pure code when the input is an empty list.
+
+```
+Prelude> last []
+*** Exception: Prelude.last: empty list
+```
+
+#### `'!!'`
+
+Throws an exception in pure code when the index is out of bounds.
+
+```
+Prelude> [1, 2, 3] !! 3
+*** Exception: Prelude.!!: index too large
+```
+
+It also allows negative indices, for which it also throws.
+
+```
+Prelude> [1,2,3] !! (-1)
+*** Exception: Prelude.!!: negative index
+```
+
+
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
@@ -180,11 +235,6 @@ Purposely fails. Deal with errors appropriately instead.
 
 ### Partial functions
 
-#### `head`
-#### `tail`
-#### `init`
-#### `last`
-#### `'!!'`
 #### `toEnum`
 
 #### `quot`
