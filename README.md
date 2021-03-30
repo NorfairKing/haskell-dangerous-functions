@@ -307,9 +307,44 @@ Prelude Control.Exception> throw $ ErrorCall "here be a problem"
 Don't throw from pure code, use throwIO instead.
 
 
+### Functions that do unexpected things
 
+#### [`realToFrac`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:realToFrac)
 
+This function goes through `Rational`:
 
+```
+-- | general coercion to fractional types
+realToFrac :: (Real a, Fractional b) => a -> b
+realToFrac = fromRational . toRational
+```
+
+`Rational` does does not have all the values that a `Real` like `Double` might have, so things will go wrong in ways that you don't expect:
+
+```
+Prelude> realToFrac nan :: Double
+-Infinity
+```
+
+Avoid general coercion functions and anything to do with `Double` in particular.
+
+See also https://github.com/NorfairKing/haskell-WAT#real-double
+
+#### [`fromIntegral`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromIntegral)
+
+`fromIntegral` has no constraints on the size of the output type, so that output type could be smaller than the input type.
+In such a case, it performs silent truncation:
+```
+> fromIntegral (300 :: Word) :: Word8
+44
+```
+
+Avoid general coercion functions but write specific ones instead, as long as the type of the result is bigger than the type of the input.
+
+```
+word32ToWord64 :: Word32 -> Word64
+word32ToWord64 = fromIntegral -- Safe because Word64 is bigger than Word32
+```
 
 
 
@@ -374,20 +409,6 @@ Lazy. Use foldl' instead.
 Lazy accumulator, but is fixed as of [GHC 9.0.1](https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4675).
 
 
-### Functions that do unexpected things
-
-#### `realToFrac`
-
-See https://github.com/NorfairKing/haskell-WAT#real-double
-
-
-#### `fromIntegral`
-
-Does silent truncation:
-```
-> fromIntegral (300 :: Word) :: Word8
-44
-```
 
 ### Deprecated
 
