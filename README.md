@@ -53,6 +53,7 @@ In that case you can add it to [the Haskell WAT list](https://github.com/Norfair
 
 ## Overview of the dangerous functions
 
+
 ### [`forkIO`](https://hackage.haskell.org/package/base-4.14.1.0/docs/Control-Concurrent.html#v:forkIO)
 
 TL;DR: Using `forkIO` is _VERY_ hard to get right, use the async library instead.
@@ -148,6 +149,16 @@ See also:
 
 * https://github.com/informatikr/hedis/issues/165
 * https://github.com/hreinhardt/amqp/issues/96
+
+#### [`forkProcess`](https://hackage.haskell.org/package/unix-2.7.2.2/docs/System-Posix-Process.html#v:forkProcess)
+
+Mostly impossible to get right.
+You probably want to be using [the `async` library](http://hackage.haskell.org/package/async) instead.
+
+If you think "I know what I'm doing" then you're probably still wrong.
+Rethink what you're doing entirely.
+
+See also https://www.reddit.com/r/haskell/comments/jsap9r/how_dangerous_is_forkprocess/
 
 ### Partial functions
 
@@ -292,6 +303,13 @@ Prelude Control.Exception> throw $ ErrorCall "here be a problem"
 
 Don't throw from pure code, use throwIO instead.
 
+
+
+
+
+
+
+
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
@@ -314,12 +332,6 @@ TODO: Unsafe
 TODO: Unsafe
 
 ### Functions with issues related to threading
-
-
-#### `forkProcess`
-
-Mostly impossible to get right, rethink what you're doing entirely.
-See also https://www.reddit.com/r/haskell/comments/jsap9r/how_dangerous_is_forkprocess/
 
 
 ### Partial functions
