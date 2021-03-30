@@ -39,6 +39,10 @@ Dangerous could mean either of these:
 
 ## Contributing
 
+**WANTED: Evidence of the danger in these functions.**
+If you can showcase an public incident with real-world consequences that happened because of one of these functions, I would love to refer to it in this document!
+
+
 If you know about another dangerous function that should be avoided, feel free to submit a PR!
 Please include:
 
@@ -269,6 +273,50 @@ The third reason, is that `read` comes from [the `Read` type class](https://hack
 In an ideal case, `read` and `show` would be inverses but this is _just not the reality_.
 See [`UTCTIme`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:DiffTime) as an example.
 
+### Functions involving division
+
+* [`quot`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:quot)
+* [`div`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:div)
+* [`rem`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:rem)
+* [`mod`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:mod)
+* [`divMod`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:divMod)
+* [`quotRem`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:quotRem)
+
+```
+Prelude> quot 1 0
+*** Exception: divide by zero
+Prelude> minBound `quot` (-1) :: Int
+*** Exception: arithmetic overflow
+Prelude> div 1 0
+*** Exception: divide by zero
+Prelude> minBound `div` (-1) :: Int
+*** Exception: arithmetic overflow
+Prelude> rem 1 0
+*** Exception: divide by zero
+Prelude> mod 1 0
+*** Exception: divide by zero
+Prelude> divMod 1 0
+*** Exception: divide by zero
+Prelude> quotRem 1 0
+*** Exception: divide by zero
+```
+
+Whenever you consider using division, _really_ ask yourself whether you need division.
+For example, you can (almost always) replace ``a `div` 2 <= b`` by `a <= 2 * b`.
+(If you're worried about overflow, then use a bigger type.)
+
+If your use-case has a fixed (non-`0`) _literal_ denominator, like ``a `div` 2``, and you have already considered using something other than division, then your case constitutes an acceptable exception.
+
+Note that integer division may not be what you want in the first place anyway:
+
+```
+Prelude> 5 `div` 2
+2 -- Not 2.5
+```
+
+See also https://github.com/NorfairKing/haskell-WAT#num-int
+
+
 ### Functions that purposely throw exceptions in pure code on purpose
 
 #### [`throw`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Exception.html#v:throw)
@@ -394,13 +442,6 @@ TODO: Unsafe
 
 #### `toEnum`
 
-#### `quot`
-see also https://github.com/NorfairKing/haskell-WAT#num-int
-#### `div`
-#### `rem`
-#### `mod`
-#### `quotRem`
-#### `divMod`
 
 
 ### Confusing functions

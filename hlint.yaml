@@ -31,9 +31,7 @@
   - {name: sum, within: []} # Lazy accumulator
   - {name: product, within: []} # Lazy accumulator
 
-
-
-  # Partial, see also https://github.com/NorfairKing/haskell-WAT#num-int
+  # Functions involving division
   - {name: quot, within: []} # Partial, see https://github.com/NorfairKing/haskell-WAT#num-int
   - {name: div, within: []}
   - {name: rem, within: []}
