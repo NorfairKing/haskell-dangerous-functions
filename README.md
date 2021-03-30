@@ -182,8 +182,7 @@ Prelude> tail []
 *** Exception: Prelude.tail: empty list
 ```
 
-Use a case-match on the `reverse` of the list instead, but keep in mind that it uses linear time in the length of the list.
-Use a different data structure if that is an issue for you.
+Use a case-match instead.
 
 #### [`init`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:init)
 
@@ -194,7 +193,9 @@ Prelude> init []
 *** Exception: Prelude.init: empty list
 ```
 
-Use a case-match instead.
+Use a case-match on the `reverse` of the list instead, but keep in mind that it uses linear time in the length of the list.
+Use a different data structure if that is an issue for you.
+
 
 #### [`last`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:last)
 
