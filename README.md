@@ -252,6 +252,46 @@ The third reason, is that `read` comes from [the `Read` type class](https://hack
 In an ideal case, `read` and `show` would be inverses but this is _just not the reality_.
 See [`UTCTIme`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:DiffTime) as an example.
 
+### Functions that purposely throw exceptions in pure code on purpose
+
+#### `undefined`
+
+Purposely fails, with a particularly unhelpful error message.
+
+```
+Prelude> undefined
+*** Exception: Prelude.undefined
+CallStack (from HasCallStack):
+  error, called at libraries/base/GHC/Err.hs:80:14 in base:GHC.Err
+  undefined, called at <interactive>:1:1 in interactive:Ghci1
+```
+
+Deal with errors appropriately instead.
+
+#### `error`
+
+Purposely fails, with an only slightly less unhelpful error message than `undefined`.
+
+```
+Prelude> error "here be a problem"
+*** Exception: here be a problem
+CallStack (from HasCallStack):
+  error, called at <interactive>:4:1 in interactive:Ghci1
+```
+
+Deal with errors appropriately instead.
+
+#### `throw`
+
+Purposely throws an exception _in pure code_.
+
+```
+Prelude Control.Exception> throw $ ErrorCall "here be a problem"
+*** Exception: here be a problem
+```
+
+Don't throw from pure code, use throwIO instead.
+
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
@@ -280,20 +320,6 @@ TODO: Unsafe
 
 Mostly impossible to get right, rethink what you're doing entirely.
 See also https://www.reddit.com/r/haskell/comments/jsap9r/how_dangerous_is_forkprocess/
-
-### Functions that purposely throw exceptions in pure code
-
-#### `undefined`
-
-Purposely fails. Deal with errors appropriately instead.
-
-#### `throw`
-
-Don't throw from pure code, use throwIO instead.
-
-#### `error`
-
-Purposely fails. Deal with errors appropriately instead.
 
 
 ### Partial functions

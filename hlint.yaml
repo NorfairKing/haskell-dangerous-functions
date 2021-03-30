@@ -13,6 +13,7 @@
 
   - {name: undefined, within: []} # Purposely fails. Deal with errors appropriately instead.
   - {name: throw, within: []} # Don't throw from pure code, use throwIO instead.
+  - {name: Prelude.error, within: []}
 
   - {name: Data.List.head, within: []} # Partial, use `listToMaybe` instead.
   - {name: Data.List.tail, within: []} # Partial
@@ -69,7 +70,6 @@
   - {name: Data.Text.IO.readFile, within: []}
   - {name: Data.Text.IO.Lazy.readFile, within: []}
 
-  - {name: Prelude.error, within: []}
   - {name: fromJust, within: []} # Partial
 
   # Does silent truncation:
