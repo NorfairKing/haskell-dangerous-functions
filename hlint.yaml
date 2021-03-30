@@ -25,7 +25,6 @@
   - {name: until, within: []} # Really confusing, use 'when' instead.
 
   - {name: nub, within: []} # O(n^2)
-  - {name: concat, within: []} # O(n^2)
 
   - {name: foldl, within: []} # Lazy. Use foldl' instead.
   - {name: sum, within: []} # Lazy accumulator

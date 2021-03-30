@@ -456,10 +456,6 @@ Really confusing, use 'when' instead.
 
 O(n^2), use [`ordNub`](https://github.com/nh2/haskell-ordnub) instead
 
-#### `concat`
-
-O(n^2)
-
 #### `foldl`
 
 Lazy. Use foldl' instead.
