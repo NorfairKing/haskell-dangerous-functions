@@ -162,7 +162,7 @@ See also https://www.reddit.com/r/haskell/comments/jsap9r/how_dangerous_is_forkp
 
 ### Partial functions
 
-#### `head`
+#### [`head`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:head)
 
 Throws an exception in pure code when the input is an empty list.
 
@@ -173,7 +173,7 @@ Prelude> head []
 
 Use `listToMaybe` instead.
 
-#### `tail`
+#### [`tail`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:tail)
 
 Throws an exception in pure code when the input is an empty list.
 
@@ -185,7 +185,7 @@ Prelude> tail []
 Use a case-match on the `reverse` of the list instead, but keep in mind that it uses linear time in the length of the list.
 Use a different data structure if that is an issue for you.
 
-#### `init`
+#### [`init`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:init)
 
 Throws an exception in pure code when the input is an empty list.
 
@@ -196,7 +196,7 @@ Prelude> init []
 
 Use a case-match instead.
 
-#### `last`
+#### [`last`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:last)
 
 Throws an exception in pure code when the input is an empty list.
 
@@ -208,7 +208,7 @@ Prelude> last []
 Use a `listToMaybe . reverse` instead, but keep in mind that it uses linear time in the length of the list.
 Use a different data structure if that is an issue for you.
 
-#### `'!!'`
+#### [`'!!'`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:-33--33-)
 
 Throws an exception in pure code when the index is out of bounds.
 
@@ -224,7 +224,10 @@ Prelude> [1,2,3] !! (-1)
 *** Exception: Prelude.!!: negative index
 ```
 
-#### `fromJust`
+The right way index is to not use a list, because list indexing takes `O(n)` time, even if you find a safe way to do it.
+If you _really_ need to deal with _list_ indexing (you don't), then you can use a combination of [`take`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:take) and [`drop`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:drop).
+
+#### [`fromJust`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-Maybe.html#v:fromJust)
 
 Throws an exception _in pure code_ when the input is `Nothing`.
 
@@ -238,7 +241,7 @@ CallStack (from HasCallStack):
 
 Use a case-match instead.
 
-#### `read`
+#### [`read`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Text-Read.html#v:read)
 
 There are multiple reasons not to use `read`.
 The most obvious one is that it is partial.
@@ -265,7 +268,7 @@ See [`UTCTIme`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.ht
 
 ### Functions that purposely throw exceptions in pure code on purpose
 
-#### `undefined`
+#### [`undefined`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:undefined)
 
 Purposely fails, with a particularly unhelpful error message.
 
@@ -279,7 +282,7 @@ CallStack (from HasCallStack):
 
 Deal with errors appropriately instead.
 
-#### `error`
+#### [`error`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:error)
 
 Purposely fails, with an only slightly less unhelpful error message than `undefined`.
 
@@ -292,7 +295,7 @@ CallStack (from HasCallStack):
 
 Deal with errors appropriately instead.
 
-#### `throw`
+#### [`throw`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Exception.html#v:throw)
 
 Purposely throws an exception _in pure code_.
 
