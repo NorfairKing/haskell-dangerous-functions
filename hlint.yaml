@@ -14,11 +14,11 @@
   - {name: undefined, within: []} # Purposely fails. Deal with errors appropriately instead.
   - {name: throw, within: []} # Don't throw from pure code, use throwIO instead.
 
-  - {name: head, within: []} # Partial
-  - {name: tail, within: []} # Partial
-  - {name: init, within: []} # Partial
-  - {name: last, within: []} # Partial
-  - {name: '!!', within: []} # Partial
+  - {name: Data.List.head, within: []} # Partial, use `listToMaybe` instead.
+  - {name: Data.List.tail, within: []} # Partial
+  - {name: Data.List.init, within: []} # Partial
+  - {name: Data.List.last, within: []} # Partial
+  - {name: 'Data.List.!!', within: []} # Partial
   - {name: toEnum, within: []} # Partial
 
   - {name: until, within: []} # Really confusing, use 'when' instead.

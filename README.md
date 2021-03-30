@@ -35,6 +35,21 @@ Dangerous could mean either of these:
 
   Maybe, but I certainly didn't, until they caused real production issues.
 
+## Contributing
+
+If you know about another dangerous function that should be avoided, feel free to submit a PR!
+Please include:
+
+* an `hlint` config to forbid the function in [`hlint.yaml`](hlint.yaml).
+* a section in this document with:
+  * Why the function is dangerous
+  * A reproducable way of showing that it is dangerous.
+  * An alternative to the dangerous function
+
+It might be that the function you have in mind is not dangerous but still weird.
+In that case you can add it to [the Haskell WAT list](https://github.com/NorfairKing/haskell-WAT).
+
+
 
 ## Overview of the dangerous functions
 
@@ -145,6 +160,8 @@ Prelude> head []
 *** Exception: Prelude.head: empty list
 ```
 
+Use `listToMaybe` instead.
+
 #### `tail`
 
 Throws an exception in pure code when the input is an empty list.
@@ -153,6 +170,9 @@ Throws an exception in pure code when the input is an empty list.
 Prelude> tail []
 *** Exception: Prelude.tail: empty list
 ```
+
+Use a case-match on the `reverse` of the list instead, but keep in mind that it uses linear time in the length of the list.
+Use a different data structure if that is an issue for you.
 
 #### `init`
 
@@ -163,6 +183,8 @@ Prelude> init []
 *** Exception: Prelude.init: empty list
 ```
 
+Use a case-match instead.
+
 #### `last`
 
 Throws an exception in pure code when the input is an empty list.
@@ -171,6 +193,9 @@ Throws an exception in pure code when the input is an empty list.
 Prelude> last []
 *** Exception: Prelude.last: empty list
 ```
+
+Use a `listToMaybe . reverse` instead, but keep in mind that it uses linear time in the length of the list.
+Use a different data structure if that is an issue for you.
 
 #### `'!!'`
 
@@ -188,6 +213,44 @@ Prelude> [1,2,3] !! (-1)
 *** Exception: Prelude.!!: negative index
 ```
 
+#### `fromJust`
+
+Throws an exception _in pure code_ when the input is `Nothing`.
+
+```
+Prelude Data.Maybe> fromJust Nothing
+*** Exception: Maybe.fromJust: Nothing
+CallStack (from HasCallStack):
+  error, called at libraries/base/Data/Maybe.hs:148:21 in base:Data.Maybe
+  fromJust, called at <interactive>:11:1 in interactive:Ghci1
+```
+
+Use a case-match instead.
+
+#### `read`
+
+There are multiple reasons not to use `read`.
+The most obvious one is that it is partial.
+It throws an exception _in pure code_ whenever the input cannot be parsed (and doesn't even give a helpful parse error):
+
+```
+Prelude> read "a" :: Int
+*** Exception: Prelude.read: no parse
+```
+
+You can use `readMaybe` to get around this issue, HOWEVER:
+
+The second reason not to use `read` is that it operates on `String`.
+
+``` haskell
+read :: Read a => String -> a
+```
+
+If you are doing any parsing, you should be using a more appropriate data type to parse: (`Text` or `ByteString`)
+
+The third reason, is that `read` comes from [the `Read` type class](https://hackage.haskell.org/package/base/docs/Text-Read.html#t:Read), which has no well-defined semantics.
+In an ideal case, `read` and `show` would be inverses but this is _just not the reality_.
+See [`UTCTIme`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:DiffTime) as an example.
 
 ## Dangerous functions about which no explanation has been written yet
 
@@ -244,14 +307,6 @@ see also https://github.com/NorfairKing/haskell-WAT#num-int
 #### `mod`
 #### `quotRem`
 #### `divMod`
-
-#### `read`
-
-Partial, use  use `Text.Read.readMaybe` instead.
-
-#### `fromJust`
-
-Partial
 
 
 ### Confusing functions
