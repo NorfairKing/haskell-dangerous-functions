@@ -23,6 +23,8 @@ Dangerous could mean either of these:
    You can use `hlint --default` to generate a settings file ignoring all the hints currently outstanding.
    You can use [pre-commit hooks](https://pre-commit.com/) to forbid committing non-`hlint`-clean changes.
 
+3. Whenever you want to make an exception, and use a forbidden function anyway, use the `ignore` key to add an exception to the `.hlint.yaml` file.
+  
 
 ## FAQ
 
@@ -269,6 +271,17 @@ See [`UTCTIme`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.ht
 
 ### Functions that purposely throw exceptions in pure code on purpose
 
+#### [`throw`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Exception.html#v:throw)
+
+Purposely throws an exception _in pure code_.
+
+```
+Prelude Control.Exception> throw $ ErrorCall "here be a problem"
+*** Exception: here be a problem
+```
+
+Don't throw from pure code, use throwIO instead.
+
 #### [`undefined`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:undefined)
 
 Purposely fails, with a particularly unhelpful error message.
@@ -283,6 +296,8 @@ CallStack (from HasCallStack):
 
 Deal with errors appropriately instead.
 
+Also see [`error`] below.
+
 #### [`error`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:error)
 
 Purposely fails, with an only slightly less unhelpful error message than `undefined`.
@@ -296,16 +311,8 @@ CallStack (from HasCallStack):
 
 Deal with errors appropriately instead.
 
-#### [`throw`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Exception.html#v:throw)
-
-Purposely throws an exception _in pure code_.
-
-```
-Prelude Control.Exception> throw $ ErrorCall "here be a problem"
-*** Exception: here be a problem
-```
-
-Don't throw from pure code, use throwIO instead.
+If you're _really very extra sure_ that a certain case will never happen.
+Bubble up the error to the `IO` part of your code and then use `throwIO` or `die`.
 
 
 ### Functions that do unexpected things
@@ -347,6 +354,16 @@ word32ToWord64 :: Word32 -> Word64
 word32ToWord64 = fromIntegral -- Safe because Word64 is bigger than Word32
 ```
 
+Prefer to use functions with non-parametric types that fail loudly, like these:
+
+* [`naturalToInteger :: Natural -> Integer`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Natural.html#v:naturalToInteger) 
+* [`naturalToWord :: Natural -> Maybe Word`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Natural.html#v:naturalToWordMaybe)
+
+
+Witness the trail of destruction:
+
+* [Bug in `System.IO.hWaitForInput`](http://haskell.1045720.n5.nabble.com/Deprecating-fromIntegral-tt5864578.html) because of `fromIntegral`
+* [Bug in cryptography-related code](https://github.com/haskell-crypto/cryptonite/issues/330) because of `fromIntegral`
 
 
 ## Dangerous functions about which no explanation has been written yet
