@@ -402,10 +402,11 @@ word32ToWord64 :: Word32 -> Word64
 word32ToWord64 = fromIntegral -- Safe because Word64 is bigger than Word32
 ```
 
-Prefer to use functions with non-parametric types that fail loudly, like these:
+Prefer to use functions with non-parametric types and/or functions that fail loudly, like these:
 
 * [`naturalToInteger :: Natural -> Integer`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Natural.html#v:naturalToInteger) 
 * [`naturalToWord :: Natural -> Maybe Word`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Natural.html#v:naturalToWordMaybe)
+* [`toIntegralSized`](http://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Bits.html#v:toIntegralSized)
 
 
 Witness the trail of destruction:
@@ -455,6 +456,9 @@ Really confusing, use 'when' instead.
 #### `nub`
 
 O(n^2), use [`ordNub`](https://github.com/nh2/haskell-ordnub) instead
+
+Trail of destruction:
+https://gitlab.haskell.org/ghc/ghc/-/issues/8173#note_236901
 
 #### `foldl`
 
