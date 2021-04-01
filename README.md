@@ -271,7 +271,7 @@ If you are doing any parsing, you should be using a more appropriate data type t
 
 The third reason, is that `read` comes from [the `Read` type class](https://hackage.haskell.org/package/base/docs/Text-Read.html#t:Read), which has no well-defined semantics.
 In an ideal case, `read` and `show` would be inverses but this is _just not the reality_.
-See [`UTCTIme`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:DiffTime) as an example.
+See [`UTCTime`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:UTCTime) as an example.
 
 ### Functions involving division
 
