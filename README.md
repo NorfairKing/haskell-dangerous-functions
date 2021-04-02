@@ -471,6 +471,8 @@ Lazy accumulator, but is fixed as of [GHC 9.0.1](https://gitlab.haskell.org/ghc/
 
 ### Deprecated
 
+#### `return`
+
 Use `pure` instead.
 See https://gitlab.haskell.org/ghc/ghc/-/wikis/proposal/monad-of-no-return
 
