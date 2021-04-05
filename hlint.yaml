@@ -36,7 +36,8 @@
   - {name: GHC.Enum.enumFromTo, within: []} # Does not do what you think it does, depending on the type.
   - {name: GHC.Enum.enumFromThenTo, within: []} # Does not do what you think it does, depending on the type.
 
-  - {name: until, within: []} # Really confusing, use 'when' instead.
+  - {name: unless, within: []} # Really confusing, use 'when' instead.
+  - {name: either, within: []} # Really confusing, just use a case-match.
 
   - {name: nub, within: []} # O(n^2)
 

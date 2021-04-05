@@ -523,6 +523,28 @@ Prelude Data.Fixed> succ 5 :: Micro
 ```
 
 
+### Confusing functions
+
+These functions are a _bad idea_ for no other reason than readability.
+If there is a bug that involves these functions, it will be really easy to read over them.
+
+#### `unless`
+
+
+`unless` is defined as follows:
+
+```
+unless p s        =  if p then pure () else s
+```
+
+This is really confusing in practice use [`when`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Monad.html#v:when) with `not` instead.
+
+#### `either`
+
+Either takes two functions as arguments, one for the `Left` case and one for the `Right` case.
+Which comes first? I don't know either, just use a case-match instead.
+
+
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
@@ -549,12 +571,6 @@ TODO: Unsafe
 
 
 
-
-### Confusing functions
-
-#### `until`
-
-Really confusing, use 'when' instead.
 
 ### Functions with unexpected performance characteristics
 
