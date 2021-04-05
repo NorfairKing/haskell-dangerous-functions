@@ -344,7 +344,7 @@ CallStack (from HasCallStack):
 
 Deal with errors appropriately instead.
 
-Also see [`error`] below.
+Also see `error` below.
 
 #### [`error`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:error)
 

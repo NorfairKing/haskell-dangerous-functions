@@ -31,12 +31,12 @@
   - {name: product, within: []} # Lazy accumulator
 
   # Functions involving division
-  - {name: quot, within: []} # Partial, see https://github.com/NorfairKing/haskell-WAT#num-int
-  - {name: div, within: []}
-  - {name: rem, within: []}
-  - {name: mod, within: []}
-  - {name: quotRem, within: []}
-  - {name: divMod, within: []}
+  - {name: Prelude.quot, within: []} # Partial, see https://github.com/NorfairKing/haskell-WAT#num-int
+  - {name: Prelude.div, within: []}
+  - {name: Prelude.rem, within: []}
+  - {name: Prelude.mod, within: []}
+  - {name: Prelude.quotRem, within: []}
+  - {name: Prelude.divMod, within: []}
 
   # Does unexpected things, see
   # https://github.com/NorfairKing/haskell-WAT#real-double
