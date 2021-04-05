@@ -273,6 +273,19 @@ The third reason, is that `read` comes from [the `Read` type class](https://hack
 In an ideal case, `read` and `show` would be inverses but this is _just not the reality_.
 See [`UTCTime`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:UTCTime) as an example.
 
+#### [`toEnum`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:toEnum)
+
+The `toEnum :: Enum => Int -> a` function is partial whenever the `Enum`erable type `a` is smaller than `Int`:
+
+```
+Prelude> toEnum 5 :: Bool
+*** Exception: Prelude.Enum.Bool.toEnum: bad argument
+Prelude Data.Word> toEnum 300 :: Word8
+*** Exception: Enum.toEnum{Word8}: tag (300) is outside of bounds (0,255)
+```
+
+
+
 ### Functions involving division
 
 * [`quot`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:quot)
@@ -315,6 +328,7 @@ Prelude> 5 `div` 2
 ```
 
 See also https://github.com/NorfairKing/haskell-WAT#num-int
+
 
 
 ### Functions that purposely throw exceptions in pure code on purpose
@@ -415,6 +429,29 @@ Witness the trail of destruction:
 * [Bug in cryptography-related code](https://github.com/haskell-crypto/cryptonite/issues/330) because of `fromIntegral`
 
 
+#### [`fromEnum`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromEnum)
+
+From the docs:
+
+> It is implementation-dependent what fromEnum returns when applied to a value that is too large to fit in an Int.
+
+For example, some `Integer` that does not fit in an `Int` will be mapped to `0`, some will be mapped all over the place
+
+```
+Prelude> fromEnum (2^66 :: Integer) -- To 0
+0
+Prelude> fromEnum (2^65 :: Integer) -- To 0
+0
+Prelude> fromEnum (2^64 :: Integer) -- To 0
+0
+Prelude> fromEnum (2^64 -1 :: Integer) -- To -1 ?!
+0
+Prelude> fromEnum (2^63 :: Integer) -- To -2^63 ?!
+-9223372036854775808
+```
+
+This is because `fromEnum :: Integer -> Int` is implemented using [`integerToInt`](https://hackage.haskell.org/package/integer-gmp-0.5.1.0/docs/GHC-Integer.html) which treats big integers and small integers differently.
+
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
@@ -439,9 +476,6 @@ TODO: Unsafe
 ### Functions with issues related to threading
 
 
-### Partial functions
-
-#### `toEnum`
 
 
 

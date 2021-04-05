@@ -20,7 +20,9 @@
   - {name: Data.List.init, within: []} # Partial
   - {name: Data.List.last, within: []} # Partial
   - {name: 'Data.List.!!', within: []} # Partial
+
   - {name: toEnum, within: []} # Partial
+  - {name: fromEnum, within: []} # Does not do what you think it does.
 
   - {name: until, within: []} # Really confusing, use 'when' instead.
 
