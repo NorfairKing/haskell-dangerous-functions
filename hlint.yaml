@@ -1,3 +1,4 @@
+- ignore: { name: "Use unless" }
 - functions:
   - {name: unsafeDupablePerformIO, within: []} # Unsafe
   - {name: unsafeInterleaveIO, within: []} # Unsafe
