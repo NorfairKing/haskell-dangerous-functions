@@ -284,7 +284,21 @@ Prelude Data.Word> toEnum 300 :: Word8
 *** Exception: Enum.toEnum{Word8}: tag (300) is outside of bounds (0,255)
 ```
 
+### [`succ`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:succ) and [`pred`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:pred)
 
+These are partial, on purpose.
+According to the docs:
+
+> The calls `succ maxBound` and `pred minBound` should result in a runtime error.
+
+```
+Prelude Data.Word> succ 255 :: Word8
+*** Exception: Enum.succ{Word8}: tried to take `succ' of maxBound
+Prelude Data.Word> pred 0 :: Word8
+*** Exception: Enum.pred{Word8}: tried to take `pred' of minBound
+```
+
+Use something like (`succMay`](https://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:succMay).
 
 ### Functions involving division
 
@@ -429,6 +443,21 @@ Witness the trail of destruction:
 * [Bug in cryptography-related code](https://github.com/haskell-crypto/cryptonite/issues/330) because of `fromIntegral`
 
 
+#### [`toEnum`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:toEnum)
+
+The `toEnum` function suffers from the following problem **on top of being partial**.
+
+Some instances of `Enum` use "the next constructor" as the next element while others use a `n+1` variant:
+
+```
+Prelude> toEnum 5 :: Double
+5.0
+Prelude Data.Fixed> toEnum 5 :: Micro
+0.000005
+```
+
+Depending on what you expected, one of those doesn't do what you think it does.
+
 #### [`fromEnum`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromEnum)
 
 From the docs:
@@ -451,6 +480,29 @@ Prelude> fromEnum (2^63 :: Integer) -- To -2^63 ?!
 ```
 
 This is because `fromEnum :: Integer -> Int` is implemented using [`integerToInt`](https://hackage.haskell.org/package/integer-gmp-0.5.1.0/docs/GHC-Integer.html) which treats big integers and small integers differently.
+
+### [`succ`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:succ) and [`pred`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:pred)
+
+These suffer from the same problem as `toEnum` (see above) **on top of being partial**.
+
+```
+Prelude> succ 5 :: Double
+6.0
+Prelude Data.Fixed> succ 5 :: Micro
+5.000001
+```
+
+### The [`enumFromTo`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:enumFromTo)-related functions
+
+These also suffer from the same problem as `toEnum` (see above)
+
+```
+Prelude> succ 5 :: Int
+6
+Prelude Data.Fixed> succ 5 :: Micro
+5.000001
+```
+
 
 ## Dangerous functions about which no explanation has been written yet
 

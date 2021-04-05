@@ -21,8 +21,14 @@
   - {name: Data.List.last, within: []} # Partial
   - {name: 'Data.List.!!', within: []} # Partial
 
-  - {name: toEnum, within: []} # Partial
-  - {name: fromEnum, within: []} # Does not do what you think it does.
+  - {name: GHC.Enum.pred, within: []} # Partial
+  - {name: GHC.Enum.suc, within: []} # Partial
+  - {name: GHC.Enum.toEnum, within: []} # Partial
+  - {name: GHC.Enum.fromEnum, within: []} # Does not do what you think it does.
+  - {name: GHC.Enum.enumFrom, within: []} # Does not do what you think it does, depending on the type.
+  - {name: GHC.Enum.enumFromThen, within: []} # Does not do what you think it does, depending on the type.
+  - {name: GHC.Enum.enumFromTo, within: []} # Does not do what you think it does, depending on the type.
+  - {name: GHC.Enum.enumFromThenTo, within: []} # Does not do what you think it does, depending on the type.
 
   - {name: until, within: []} # Really confusing, use 'when' instead.
 
