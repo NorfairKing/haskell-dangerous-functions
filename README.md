@@ -343,7 +343,26 @@ Prelude> 5 `div` 2
 
 See also https://github.com/NorfairKing/haskell-WAT#num-int
 
+#### [`minimum`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:minimum) and [`maximum`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:maximum)
 
+These functions throw an exception in pure code whenever the input is empty:
+
+```
+Prelude> minimum []
+*** Exception: Prelude.minimum: empty list
+Prelude> maximum []
+*** Exception: Prelude.maximum: empty list
+Prelude> minimum Nothing
+*** Exception: minimum: empty structure
+Prelude> minimum (Left "wut")
+*** Exception: minimum: empty structure
+Prelude Data.Functor.Const> minimum (Const 5 :: Const Int ())
+*** Exception: minimum: empty structure
+```
+
+The same goes for [`minimumBy`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:minimumBy) and [`maximumBy`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:maximumBy).
+
+You can use [`minimumMay`](http://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:minimumMay) from the [`safe`](http://hackage.haskell.org/package/safe) package (or a case-match on the `sort`-ed version of your list, if you don't want an extra dependency).
 
 ### Functions that purposely throw exceptions in pure code on purpose
 

@@ -20,6 +20,12 @@
   - {name: Data.List.init, within: []} # Partial
   - {name: Data.List.last, within: []} # Partial
   - {name: 'Data.List.!!', within: []} # Partial
+  - {name: Data.List.genericIndex, within: []} # Partial
+
+  - {name: minimum, within: []} # Partial
+  - {name: minimumBy, within: []} # Partial
+  - {name: maximum, within: []} # Partial
+  - {name: maximumBy, within: []} # Partial
 
   - {name: GHC.Enum.pred, within: []} # Partial
   - {name: GHC.Enum.suc, within: []} # Partial
