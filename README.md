@@ -544,6 +544,63 @@ This is really confusing in practice use [`when`](https://hackage.haskell.org/pa
 Either takes two functions as arguments, one for the `Left` case and one for the `Right` case.
 Which comes first? I don't know either, just use a case-match instead.
 
+### Unsafe functions
+#### `unsafePerformIO`
+
+Before you use this function, first read [its documentation](http://hackage.haskell.org/package/base-4.14.1.0/docs/System-IO-Unsafe.html#v:unsafePerformIO) carefully.
+If you've done (and I know you haven't, you liar) and still want to use it, read the following section first.
+
+
+When you use `unsafePerformIO`, you pinkie-promise that the code in the `IO a` that you provide is definitely always 100% pure, you swear.
+If this is not the case, all sorts of assumptions don't work anymore.
+For example, if the code that you want to execute in `unsafePerformIO` is not evaluated, then the IO is never executed:
+
+``` haskell
+Prelude> fmap (const 'o') $ putStrLn "hi"
+hi
+'o'
+Prelude System.IO.Unsafe> const 'o' $ unsafePerformIO $ putStrLn "hi"
+'o'
+```
+
+Another issue is that pure code can be inlined whereas IO-based code cannot. When you pinkie-promise that your code is "morally" pure, you also promise that inlining it will not cause trouble.
+This is not true in general:
+
+```
+Prelude System.IO.Unsafe> let a = unsafePerformIO $ putStrLn "hi"
+Prelude System.IO.Unsafe> a
+hi
+()
+Prelude System.IO.Unsafe> a
+()
+```
+
+Lastly, this function is also not type-safe, as you can see here:
+
+```
+$ cat file.hs
+```
+
+``` haskell
+import Data.IORef
+import System.IO.Unsafe
+
+test :: IORef [a]
+test = unsafePerformIO $ newIORef []
+
+main = do
+  writeIORef test [42]
+  bang <- readIORef test
+  print $ map (\f -> f 5 6) (bang :: [Int -> Int -> Int])
+```
+
+```
+$ runhaskell file.hs
+[file.hs: internal error: stg_ap_pp_ret
+    (GHC version 8.8.4 for x86_64_unknown_linux)
+    Please report this as a GHC bug:  https://www.haskell.org/ghc/reportabug
+[1]    13949 abort (core dumped)  runhaskell file.hs
+```
 
 ## Dangerous functions about which no explanation has been written yet
 
@@ -562,9 +619,6 @@ TODO: Unsafe
 
 TODO: Unsafe
 
-#### `unsafePerformIO`
-
-TODO: Unsafe
 
 ### Functions with issues related to threading
 
