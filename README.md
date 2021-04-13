@@ -565,9 +565,24 @@ This is really confusing in practice use [`when`](https://hackage.haskell.org/pa
 Either takes two functions as arguments, one for the `Left` case and one for the `Right` case.
 Which comes first? I don't know either, just use a case-match instead.
 
+
+### Modules or packages to avoid
+
+These are debatable, but requiring a good justification for using them is a good default.
+
+#### [`Control.Lens`](https://hackage.haskell.org/package/lens)
+
+The `lens` package is full of abstract nonsense and obscure operators.
+There are good reasons (in exceptional cases) for using it, like in [`cursor`](https://github.com/NorfairKing/cursor), for example, but it should be avoided in general.
+
+It also has an ENORMOUS dependency footprint.
+
+If you need to use a dependency that uses lenses without the `lens` dependency, you can use `microlens` to stick with the (relatively) simple parts of lenses.
+If you need to use a dependency that uses `lens`, go ahead and use `lens`, but stick with `view` (`^.`) and `set` (`.~`).
+
 ### Extensions to avoid
 
-These are all debatable and low priority compared to the rest in this document, but still interesting to consider
+These are also debatable and low priority compared to the rest in this document, but still interesting to consider
 
 #### [`{-# LANGUAGE TupleSections #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/tuple_sections.html)
 

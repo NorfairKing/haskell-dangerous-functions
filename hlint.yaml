@@ -1,12 +1,4 @@
 - ignore: { name: "Use unless" }
-- extensions:
-  - { name: DeriveAnyClass, within: [] } # Dangerous
-
-  - { name: DuplicateRecordFields, within: [] }
-
-  - { name: NamedFieldPuns, within: [] }
-  - { name: TupleSections, within: [] }
-  - { name: OverloadedLabels, within: [] }
 
 - functions:
   - {name: unsafeDupablePerformIO, within: []} # Unsafe
@@ -106,3 +98,14 @@
   # See https://gitlab.haskell.org/ghc/ghc/-/wikis/proposal/monad-of-no-return
   - {name: 'return', within: []}
 
+- modules:
+  - { name: Control.Lens, within: [] }
+
+- extensions:
+  - { name: DeriveAnyClass, within: [] } # Dangerous
+
+  - { name: DuplicateRecordFields, within: [] }
+
+  - { name: NamedFieldPuns, within: [] }
+  - { name: TupleSections, within: [] }
+  - { name: OverloadedLabels, within: [] }
