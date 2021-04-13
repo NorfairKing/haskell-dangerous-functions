@@ -1,4 +1,7 @@
 - ignore: { name: "Use unless" }
+- extensions:
+  - { name: DeriveAnyClass, within: [] } # Dangerous
+
 - functions:
   - {name: unsafeDupablePerformIO, within: []} # Unsafe
   - {name: unsafeInterleaveIO, within: []} # Unsafe

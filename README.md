@@ -300,6 +300,27 @@ Prelude Data.Word> pred 0 :: Word8
 
 Use something like (`succMay`](https://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:succMay).
 
+### [`{-# LANGUAGE DeriveAnyClass #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/derive_any_class.html#extension-DeriveAnyClass)
+
+Just use
+
+``` haskell
+data MyExample
+instance MyClass MyExample
+```
+
+instead of
+
+``` haskell
+data MyExample
+  deriving MyClass
+```
+
+[GHC (rather puzzlingly) gives the recommendation to turn on `DeriveAnyClass` even when that would lead to code that throws an exception in pure code at runtime.](https://gitlab.haskell.org/ghc/ghc/-/issues/19692)
+As a result, banning this extension brings potentially great upside: preventing a runtime exception, as well as reducing confusion, for the cost of writing a separate line for an instance if you know what you are doing.
+
+See also [this great explainer video by Tweag](https://www.youtube.com/watch?v=Zdne-Ch2000).
+
 ### Functions involving division
 
 * [`quot`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:quot)
