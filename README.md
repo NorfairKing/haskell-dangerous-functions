@@ -706,6 +706,13 @@ Used to define lazy IO, which should be avoided, uses `unsafeDupablePerformIO`.
 
 Unsafe version of `fixIO`.
 
+### Deprecated
+
+#### `return`
+
+Use `pure` instead.
+See https://gitlab.haskell.org/ghc/ghc/-/wikis/proposal/monad-of-no-return
+
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
@@ -728,13 +735,6 @@ Lazy. Use foldl' instead.
 Lazy accumulator, but is fixed as of [GHC 9.0.1](https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4675).
 
 
-
-### Deprecated
-
-#### `return`
-
-Use `pure` instead.
-See https://gitlab.haskell.org/ghc/ghc/-/wikis/proposal/monad-of-no-return
 
 
 ### Functions that don't do what you think they do
