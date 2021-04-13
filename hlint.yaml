@@ -2,6 +2,8 @@
 - extensions:
   - { name: DeriveAnyClass, within: [] } # Dangerous
 
+  - { name: TupleSections, within: [] }
+
 - functions:
   - {name: unsafeDupablePerformIO, within: []} # Unsafe
   - {name: unsafeInterleaveIO, within: []} # Unsafe

@@ -565,6 +565,17 @@ This is really confusing in practice use [`when`](https://hackage.haskell.org/pa
 Either takes two functions as arguments, one for the `Left` case and one for the `Right` case.
 Which comes first? I don't know either, just use a case-match instead.
 
+### Extensions to avoid
+
+These are all debatable and low priority compared to the rest in this document, but still interesting to consider
+
+#### [`{-# LANGUAGE TupleSections #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/tuple_sections.html)
+
+This is the most pretentious language extension ever.
+You add `{-# LANGUAGE TupleSections #-}` and potential confusion to write `(, v)` instead of `\a -> (a, v)`.
+
+Whenever you feel the need to use `TupleSections`, you probably want to be using a data type instead of tuples instead.
+
 ### Unsafe functions
 #### `unsafePerformIO`
 
