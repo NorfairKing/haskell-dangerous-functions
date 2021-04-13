@@ -2,6 +2,8 @@
 - extensions:
   - { name: DeriveAnyClass, within: [] } # Dangerous
 
+  - { name: DuplicateRecordFields, within: [] }
+
   - { name: TupleSections, within: [] }
 
 - functions:

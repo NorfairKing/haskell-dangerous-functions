@@ -571,10 +571,26 @@ These are all debatable and low priority compared to the rest in this document, 
 
 #### [`{-# LANGUAGE TupleSections #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/tuple_sections.html)
 
-This is the most pretentious language extension ever.
-You add `{-# LANGUAGE TupleSections #-}` and potential confusion to write `(, v)` instead of `\a -> (a, v)`.
+This lets you add `{-# LANGUAGE TupleSections #-}` and potential confusion to write `(, v)` instead of `\a -> (a, v)`.
 
 Whenever you feel the need to use `TupleSections`, you probably want to be using a data type instead of tuples instead.
+
+#### [`{-# LANGUAGE DuplicateRecordFields #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/duplicate_record_fields.html)
+
+To keep things simple, use prefix-named record fields like this:
+
+``` haskell
+data Template = Template { templateName :: Text, templateContents :: Text }
+```
+
+instead of this
+
+``` haskell
+{-# LANGUAGE DuplicateRecordFields #-}
+data Template = Template { name :: Text, contents :: Text }
+```
+
+It may be more typing but it makes code a lot more readable.
 
 ### Unsafe functions
 #### `unsafePerformIO`
