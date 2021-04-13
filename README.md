@@ -694,28 +694,21 @@ $ runhaskell file.hs
 [1]    13949 abort (core dumped)  runhaskell file.hs
 ```
 
+#### [`unsafeDupablePerformIO`](http://hackage.haskell.org/package/base-4.14.1.0/docs/System-IO-Unsafe.html#v:unsafeDupablePerformIO)
+
+Like `unsafePerformIO` but is even less safe.
+
+#### [`unsafeInterleaveIO`](http://hackage.haskell.org/package/base-4.14.1.0/docs/System-IO-Unsafe.html#v:unsafeInterleaveIO)
+
+Used to define lazy IO, which should be avoided, uses `unsafeDupablePerformIO`.
+
+#### [`unsafeFixIO`](http://hackage.haskell.org/package/base-4.14.1.0/docs/System-IO-Unsafe.html#v:unsafeFixIO)
+
+Unsafe version of `fixIO`.
+
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
-
-### Memory-unsafe functions
-#### `unsafeDupablePerformIO`
-
-TODO: Unsafe",
-
-#### `unsafeInterleaveIO`
-
-TODO: Unsafe
-
-#### `unsafeFixIO`
-
-TODO: Unsafe
-
-
-### Functions with issues related to threading
-
-
-
 
 
 ### Functions with unexpected performance characteristics
