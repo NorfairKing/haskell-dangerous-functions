@@ -614,6 +614,12 @@ instead of this:
 f (C {a}) = foo a
 ```
 
+#### [`{-# LANGUAGE OverloadedLabels #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/overloaded_labels.html#extension-OverloadedLabels)
+
+If you're using this, you either know what you're doing - in which case you should know better than to use this - or you don't - in which case you definitely shouldn't use it.
+Keep your code simple and just use record field selectors instead.
+
+This extensions often goes hand in hand with lens usage, which should also be discouraged, see above.
 
 ### Unsafe functions
 #### `unsafePerformIO`
