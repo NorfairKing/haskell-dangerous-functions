@@ -4,6 +4,7 @@
 
   - { name: DuplicateRecordFields, within: [] }
 
+  - { name: NamedFieldPuns, within: [] }
   - { name: TupleSections, within: [] }
 
 - functions:

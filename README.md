@@ -592,6 +592,29 @@ data Template = Template { name :: Text, contents :: Text }
 
 It may be more typing but it makes code a lot more readable.
 
+#### [`{-# LANGUAGE NamedFieldPuns #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/record_puns.html#extension-NamedFieldPuns)
+
+Introduces unnecessary syntax.
+
+For this example:
+``` haskell
+data C = C { a :: Int }
+```
+
+just use this:
+
+
+``` haskell
+f c = foo (a c)
+```
+
+instead of this:
+
+``` haskell
+f (C {a}) = foo a
+```
+
+
 ### Unsafe functions
 #### `unsafePerformIO`
 
