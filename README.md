@@ -543,6 +543,25 @@ Prelude Data.Fixed> succ 5 :: Micro
 5.000001
 ```
 
+### Functions with unexpected performance characteristics
+
+#### `nub`
+
+`O(n^2)`, use [`ordNub`](https://github.com/nh2/haskell-ordnub) instead
+
+Trail of destruction:
+https://gitlab.haskell.org/ghc/ghc/-/issues/8173#note_236901
+
+#### `foldl`
+
+Lazy. Use foldl' instead.
+
+See [this excellent explanation](https://github.com/hasura/graphql-engine/pull/2933#discussion_r328821960).
+
+#### `sum` and `product`
+Lazy accumulator, but is fixed as of [GHC 9.0.1](https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4675).
+
+
 
 ### Confusing functions
 
@@ -716,23 +735,6 @@ See https://gitlab.haskell.org/ghc/ghc/-/wikis/proposal/monad-of-no-return
 ## Dangerous functions about which no explanation has been written yet
 
 TODO: This section isn't finished yet.
-
-
-### Functions with unexpected performance characteristics
-
-#### `nub`
-
-O(n^2), use [`ordNub`](https://github.com/nh2/haskell-ordnub) instead
-
-Trail of destruction:
-https://gitlab.haskell.org/ghc/ghc/-/issues/8173#note_236901
-
-#### `foldl`
-
-Lazy. Use foldl' instead.
-
-#### `sum` and `product`
-Lazy accumulator, but is fixed as of [GHC 9.0.1](https://gitlab.haskell.org/ghc/ghc/-/merge_requests/4675).
 
 
 
