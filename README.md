@@ -156,7 +156,7 @@ See also:
 * https://github.com/informatikr/hedis/issues/165
 * https://github.com/hreinhardt/amqp/issues/96
 
-#### [`forkProcess`](https://hackage.haskell.org/package/unix-2.7.2.2/docs/System-Posix-Process.html#v:forkProcess)
+### [`forkProcess`](https://hackage.haskell.org/package/unix-2.7.2.2/docs/System-Posix-Process.html#v:forkProcess)
 
 Mostly impossible to get right.
 You probably want to be using [the `async` library](http://hackage.haskell.org/package/async) instead.
@@ -284,7 +284,7 @@ Prelude Data.Word> toEnum 300 :: Word8
 *** Exception: Enum.toEnum{Word8}: tag (300) is outside of bounds (0,255)
 ```
 
-### [`succ`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:succ) and [`pred`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:pred)
+#### [`succ`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:succ) and [`pred`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:pred)
 
 These are partial, on purpose.
 According to the docs:
@@ -300,28 +300,7 @@ Prelude Data.Word> pred 0 :: Word8
 
 Use something like (`succMay`](https://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:succMay).
 
-### [`{-# LANGUAGE DeriveAnyClass #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/derive_any_class.html#extension-DeriveAnyClass)
-
-Just use
-
-``` haskell
-data MyExample
-instance MyClass MyExample
-```
-
-instead of
-
-``` haskell
-data MyExample
-  deriving MyClass
-```
-
-[GHC (rather puzzlingly) gives the recommendation to turn on `DeriveAnyClass` even when that would lead to code that throws an exception in pure code at runtime.](https://gitlab.haskell.org/ghc/ghc/-/issues/19692)
-As a result, banning this extension brings potentially great upside: preventing a runtime exception, as well as reducing confusion, for the cost of writing a separate line for an instance if you know what you are doing.
-
-See also [this great explainer video by Tweag](https://www.youtube.com/watch?v=Zdne-Ch2000).
-
-### Functions involving division
+#### Functions involving division
 
 * [`quot`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:quot)
 * [`div`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:div)
@@ -384,6 +363,10 @@ Prelude Data.Functor.Const> minimum (Const 5 :: Const Int ())
 The same goes for [`minimumBy`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:minimumBy) and [`maximumBy`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:maximumBy).
 
 You can use [`minimumMay`](http://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:minimumMay) from the [`safe`](http://hackage.haskell.org/package/safe) package (or a case-match on the `sort`-ed version of your list, if you don't want an extra dependency).
+
+#### [`Data.Text.Encoding.decodeUtf8`](http://hackage.haskell.org/package/text-1.2.4.1/docs/Data-Text-Encoding.html#v:decodeUtf8)
+
+Throws on invalid UTF-8 datao use `Data.Text.Encoding.decodeUtf8'` instead.
 
 ### Functions that purposely throw exceptions in pure code on purpose
 
@@ -521,7 +504,7 @@ Prelude> fromEnum (2^63 :: Integer) -- To -2^63 ?!
 
 This is because `fromEnum :: Integer -> Int` is implemented using [`integerToInt`](https://hackage.haskell.org/package/integer-gmp-0.5.1.0/docs/GHC-Integer.html) which treats big integers and small integers differently.
 
-### [`succ`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:succ) and [`pred`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:pred)
+#### [`succ`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:succ) and [`pred`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:pred)
 
 These suffer from the same problem as `toEnum` (see above) **on top of being partial**.
 
@@ -542,6 +525,70 @@ Prelude> succ 5 :: Int
 Prelude Data.Fixed> succ 5 :: Micro
 5.000001
 ```
+
+### Functions related to `String`-based IO
+
+#### Input
+
+- `System.IO.getChar`
+- `System.IO.getLine`
+- `System.IO.getContents`
+- `System.IO.interact`
+- `System.IO.readIO`
+- `System.IO.readLn`
+- `System.IO.readFile`
+
+These behave differently depending on env vars, and actually fail on non-text data in files:
+
+```
+Prelude> readFile "example.dat"
+*** Exception: Test/A.txt: hGetContents: invalid argument (invalid byte sequence) "\226\8364
+```
+
+See also [this blogpost](https://www.snoyman.com/blog/2016/12/beware-of-readfile/).
+
+Use `ByteString`-based input and then use `Data.Text.Encoding.decodeUtf8'` if necessary. (But not `Data.Text.Encoding.decodeUtf8`, see above.)
+
+#### Output
+
+- `System.IO.putChar`
+- `System.IO.putStr`
+- `System.IO.putStrLn`
+- `System.IO.print`
+- `System.IO.writeFile`
+- `System.IO.appendFile`
+
+These behave differently depending on env vars:
+
+```
+$ ghci
+Prelude> putStrLn "\937"
+Ω
+```
+
+but
+```
+$ export LANG=C
+$ export LC_ALL=C
+$ ghci
+Prelude> putStrLn "\973"
+?
+```
+
+
+Use `ByteString`-based output, on encoded `Text` values or directly on bytestrings instead.
+
+See also [this blogpost](https://www.snoyman.com/blog/2016/12/beware-of-readfile/).
+
+### Functions related to `Text`-based IO
+
+- `Data.Text.IO.readFile`
+- `Data.Text.IO.Lazy.readFile`
+
+These have the same issues as `readFile`.
+
+See also [this blogpost](https://www.snoyman.com/blog/2016/12/beware-of-readfile/).
+
 
 ### Functions with unexpected performance characteristics
 
@@ -602,6 +649,27 @@ If you need to use a dependency that uses `lens`, go ahead and use `lens`, but s
 ### Extensions to avoid
 
 These are also debatable and low priority compared to the rest in this document, but still interesting to consider
+
+#### [`{-# LANGUAGE DeriveAnyClass #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/derive_any_class.html#extension-DeriveAnyClass)
+
+Just use
+
+``` haskell
+data MyExample
+instance MyClass MyExample
+```
+
+instead of
+
+``` haskell
+data MyExample
+  deriving MyClass
+```
+
+[GHC (rather puzzlingly) gives the recommendation to turn on `DeriveAnyClass` even when that would lead to code that throws an exception in pure code at runtime.](https://gitlab.haskell.org/ghc/ghc/-/issues/19692)
+As a result, banning this extension brings potentially great upside: preventing a runtime exception, as well as reducing confusion, for the cost of writing a separate line for an instance if you know what you are doing.
+
+See also [this great explainer video by Tweag](https://www.youtube.com/watch?v=Zdne-Ch2000).
 
 #### [`{-# LANGUAGE TupleSections #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/tuple_sections.html)
 
@@ -731,36 +799,4 @@ Unsafe version of `fixIO`.
 
 Use `pure` instead.
 See https://gitlab.haskell.org/ghc/ghc/-/wikis/proposal/monad-of-no-return
-
-## Dangerous functions about which no explanation has been written yet
-
-TODO: This section isn't finished yet.
-
-
-
-
-### Functions that don't do what you think they do
-
-#### `System.IO.putChar`
-#### `System.IO.putStr`
-#### `System.IO.putStrLn`
-#### `System.IO.print`
-
-#### `System.IO.getChar`
-#### `System.IO.getLine`
-#### `System.IO.getContents`
-#### `System.IO.interact`
-#### `System.IO.readIO`
-#### `System.IO.readLn`
-
-#### `System.IO.readFile`
-#### `System.IO.writeFile`
-#### `System.IO.appendFile`
-
-#### `Data.Text.IO.readFile`
-#### `Data.Text.IO.Lazy.readFile`
-
-
-
-
 

@@ -84,6 +84,8 @@
   - {name: Data.Text.IO.readFile, within: []}
   - {name: Data.Text.IO.Lazy.readFile, within: []}
 
+  - {name: Data.Text.Encoding.decodeUtf8, within: []} # Throws on invalid UTF8
+
   - {name: fromJust, within: []} # Partial
 
   # Does silent truncation:
