@@ -368,7 +368,7 @@ You can use [`minimumMay`](http://hackage.haskell.org/package/safe-0.3.19/docs/S
 
 Throws on invalid UTF-8 datao use `Data.Text.Encoding.decodeUtf8'` instead.
 
-### Functions that purposely throw exceptions in pure code on purpose
+### Functions that throw exceptions in pure code on purpose
 
 #### [`throw`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Exception.html#v:throw)
 
@@ -465,6 +465,7 @@ Witness the trail of destruction:
 * [Bug in `System.IO.hWaitForInput`](http://haskell.1045720.n5.nabble.com/Deprecating-fromIntegral-tt5864578.html) because of `fromIntegral`
 * [Bug in cryptography-related code](https://github.com/haskell-crypto/cryptonite/issues/330) because of `fromIntegral`
 
+I was also pointed to the [`finitary`](http://hackage.haskell.org/package/finitary) package but I haven't used it yet.
 
 #### [`toEnum`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:toEnum)
 
@@ -693,6 +694,11 @@ data Template = Template { name :: Text, contents :: Text }
 ```
 
 It may be more typing but it makes code a lot more readable.
+
+If you are concerned about not being able to auto-derive `aeson`'s `ToJSON` and `FromJSON` instances anymore,
+you shouldn't be. You can still that using something like [`aeson-casing`](https://hackage.haskell.org/package/aeson-casing).
+It's also dangerous to have serialisation output depend on the naming of things in your code, so be sure to test your serialisation with both property tests via [`genvalidity-sydtest-aeson`](https://hackage.haskell.org/package/genvalidity-sydtest-aeson) and golden tests via [`sydtest-aeson`](https://github.com/NorfairKing/sydtest).
+
 
 #### [`{-# LANGUAGE NamedFieldPuns #-}`](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/record_puns.html#extension-NamedFieldPuns)
 
