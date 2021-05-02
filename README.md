@@ -24,7 +24,7 @@ Dangerous could mean either of these:
    You can use [pre-commit hooks](https://pre-commit.com/) to forbid committing non-`hlint`-clean changes.
 
 3. Whenever you want to make an exception, and use a forbidden function anyway, use the `ignore` key to add an exception to the `.hlint.yaml` file.
-  
+
 
 ## FAQ
 
@@ -40,7 +40,7 @@ Dangerous could mean either of these:
 ## Contributing
 
 **WANTED: Evidence of the danger in these functions.**
-If you can showcase an public incident with real-world consequences that happened because of one of these functions, I would love to refer to it in this document!
+If you can showcase a public incident with real-world consequences that happened because of one of these functions, I would love to refer to it in this document!
 
 
 If you know about another dangerous function that should be avoided, feel free to submit a PR!
@@ -49,7 +49,7 @@ Please include:
 * an `hlint` config to forbid the function in [`hlint.yaml`](hlint.yaml).
 * a section in this document with:
   * Why the function is dangerous
-  * A reproducable way of showing that it is dangerous.
+  * A reproducible way of showing that it is dangerous.
   * An alternative to the dangerous function
 
 It might be that the function you have in mind is not dangerous but still weird.
@@ -68,7 +68,7 @@ The main issue is that when threads spawned using `forkIO` throw an exception, t
 
 As an example, suppose we `forkIO` a server and something goes wrong.
 The main thread will not notice that anything went wrong.
-The only indication that an exception was thrown will be that something is printed on `stderr`. 
+The only indication that an exception was thrown will be that something is printed on `stderr`.
 
 ``` haskell
 $ cat test.hs
@@ -79,7 +79,7 @@ import Control.Concurrent
 main :: IO ()
 main = do
   putStrLn "Starting our 'server'."
-  forkIO $ do            
+  forkIO $ do
     putStrLn "Serving..."
     threadDelay 1_000_000
     putStrLn "Oh no, about to crash!"
@@ -88,7 +88,7 @@ main = do
     undefined
   threadDelay 5_000_000
   putStrLn "Still running, eventhough we crashed"
-  threadDelay 5_000_000                 
+  threadDelay 5_000_000
   putStrLn "Ok that's enough of that, stopping here."
 ```
 
@@ -231,7 +231,7 @@ Prelude> [1,2,3] !! (-1)
 *** Exception: Prelude.!!: negative index
 ```
 
-The right way index is to not use a list, because list indexing takes `O(n)` time, even if you find a safe way to do it.
+The right way to index is to not use a list, because list indexing takes `O(n)` time, even if you find a safe way to do it.
 If you _really_ need to deal with _list_ indexing (you don't), then you can use a combination of [`take`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:take) and [`drop`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:drop).
 
 #### [`fromJust`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-Maybe.html#v:fromJust)
@@ -269,7 +269,7 @@ read :: Read a => String -> a
 
 If you are doing any parsing, you should be using a more appropriate data type to parse: (`Text` or `ByteString`)
 
-The third reason, is that `read` comes from [the `Read` type class](https://hackage.haskell.org/package/base/docs/Text-Read.html#t:Read), which has no well-defined semantics.
+The third reason is that `read` comes from [the `Read` type class](https://hackage.haskell.org/package/base/docs/Text-Read.html#t:Read), which has no well-defined semantics.
 In an ideal case, `read` and `show` would be inverses but this is _just not the reality_.
 See [`UTCTime`](https://hackage.haskell.org/package/time/docs/Data-Time-Clock.html#t:UTCTime) as an example.
 
@@ -426,7 +426,7 @@ realToFrac :: (Real a, Fractional b) => a -> b
 realToFrac = fromRational . toRational
 ```
 
-`Rational` does does not have all the values that a `Real` like `Double` might have, so things will go wrong in ways that you don't expect:
+`Rational` does not have all the values that a `Real` like `Double` might have, so things will go wrong in ways that you don't expect:
 
 ```
 Prelude> realToFrac nan :: Double
@@ -455,7 +455,7 @@ word32ToWord64 = fromIntegral -- Safe because Word64 is bigger than Word32
 
 Prefer to use functions with non-parametric types and/or functions that fail loudly, like these:
 
-* [`naturalToInteger :: Natural -> Integer`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Natural.html#v:naturalToInteger) 
+* [`naturalToInteger :: Natural -> Integer`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Natural.html#v:naturalToInteger)
 * [`naturalToWord :: Natural -> Maybe Word`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Natural.html#v:naturalToWordMaybe)
 * [`toIntegralSized`](http://hackage.haskell.org/package/base-4.14.0.0/docs/Data-Bits.html#v:toIntegralSized)
 
@@ -602,7 +602,7 @@ https://gitlab.haskell.org/ghc/ghc/-/issues/8173#note_236901
 
 #### `foldl`
 
-Lazy. Use foldl' instead.
+Lazy. Use `foldl'` instead.
 
 See [this excellent explanation](https://github.com/hasura/graphql-engine/pull/2933#discussion_r328821960).
 
@@ -727,7 +727,7 @@ f (C {a}) = foo a
 If you're using this, you either know what you're doing - in which case you should know better than to use this - or you don't - in which case you definitely shouldn't use it.
 Keep your code simple and just use record field selectors instead.
 
-This extensions often goes hand in hand with lens usage, which should also be discouraged, see above.
+This extension often goes hand in hand with lens usage, which should also be discouraged, see above.
 
 ### Unsafe functions
 #### `unsafePerformIO`
