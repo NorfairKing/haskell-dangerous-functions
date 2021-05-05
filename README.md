@@ -514,6 +514,10 @@ Prelude> succ 5 :: Double
 6.0
 Prelude Data.Fixed> succ 5 :: Micro
 5.000001
+Prelude> pred 0 :: Word
+*** Exception: Enum.pred{Word}: tried to take `pred' of minBound
+Prelude Data.Ord Data.Int> succ (127 :: Int8)
+*** Exception: Enum.succ{Int8}: tried to take `succ' of maxBound
 ```
 
 ### The [`enumFromTo`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:enumFromTo)-related functions
