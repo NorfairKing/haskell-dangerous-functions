@@ -24,10 +24,20 @@
   - {name: 'Data.List.!!', within: []} # Partial
   - {name: Data.List.genericIndex, within: []} # Partial
 
+  # Same, but for Data.Text
+  - {name: Data.Text.head, within: []}
+  - {name: Data.Text.tail, within: []}
+  - {name: Data.Text.init, within: []}
+  - {name: Data.Text.last, within: []}
+
   - {name: minimum, within: []} # Partial
   - {name: minimumBy, within: []} # Partial
   - {name: maximum, within: []} # Partial
   - {name: maximumBy, within: []} # Partial
+
+  # Same, but for Data.Text
+  - {name: Data.Text.maximum, within: []}
+  - {name: Data.Text.minimum, within: []}
 
   - {name: GHC.Enum.pred, within: []} # Partial
   - {name: GHC.Enum.suc, within: []} # Partial
