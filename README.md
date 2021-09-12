@@ -179,6 +179,8 @@ Prelude> head []
 
 Use `listToMaybe` instead.
 
+Applies to [Data.Text.head](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:head) as well
+
 #### [`tail`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:tail)
 
 Throws an exception in pure code when the input is an empty list.
@@ -189,6 +191,8 @@ Prelude> tail []
 ```
 
 Use a case-match instead.
+
+Applies to [Data.Text.tail](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:tail) as well
 
 #### [`init`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:init)
 
@@ -202,6 +206,7 @@ Prelude> init []
 Use a case-match on the `reverse` of the list instead, but keep in mind that it uses linear time in the length of the list.
 Use a different data structure if that is an issue for you.
 
+Applies to [Data.Text.init](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:init) as well
 
 #### [`last`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:last)
 
@@ -214,6 +219,8 @@ Prelude> last []
 
 Use a `listToMaybe . reverse` instead, but keep in mind that it uses linear time in the length of the list.
 Use a different data structure if that is an issue for you.
+
+Applies to [Data.Text.last](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:last) as well
 
 #### [`'!!'`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:-33--33-)
 
@@ -363,6 +370,8 @@ Prelude Data.Functor.Const> minimum (Const 5 :: Const Int ())
 The same goes for [`minimumBy`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:minimumBy) and [`maximumBy`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:maximumBy).
 
 You can use [`minimumMay`](http://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:minimumMay) from the [`safe`](http://hackage.haskell.org/package/safe) package (or a case-match on the `sort`-ed version of your list, if you don't want an extra dependency).
+
+Applies to [Data.Text.maximum](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:maximum) and [Data.Text.minimum](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:minimum) as well
 
 #### [`Data.Text.Encoding.decodeUtf8`](http://hackage.haskell.org/package/text-1.2.4.1/docs/Data-Text-Encoding.html#v:decodeUtf8)
 
