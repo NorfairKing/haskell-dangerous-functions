@@ -1,4 +1,5 @@
 - ignore: { name: "Use unless" }
+- ignore: { name: "Use tuple-section" }
 
 - functions:
   - {name: unsafeDupablePerformIO, within: []} # Unsafe
