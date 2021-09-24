@@ -576,8 +576,8 @@ These behave differently depending on env vars:
 
 ```
 $ ghci
-Prelude> putStrLn "\937"
-Ω
+Prelude> putStrLn "\973"
+ύ
 ```
 
 but
