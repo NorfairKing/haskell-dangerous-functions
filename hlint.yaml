@@ -58,9 +58,9 @@
 
   - {name: nub, within: []} # O(n^2)
 
-  - {name: foldl, within: []} # Lazy. Use foldl' instead.
-  - {name: sum, within: []} # Lazy accumulator
-  - {name: product, within: []} # Lazy accumulator
+  - {name: Data.Foldable.foldl, within: []} # Lazy. Use foldl' instead.
+  - {name: Data.Foldable.sum, within: []} # Lazy accumulator
+  - {name: Data.Foldable.product, within: []} # Lazy accumulator
 
   # Functions involving division
   - {name: Prelude.quot, within: []} # Partial, see https://github.com/NorfairKing/haskell-WAT#num-int
