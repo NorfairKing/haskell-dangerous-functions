@@ -592,6 +592,8 @@ Prelude> putStrLn "\973"
 
 Use `ByteString`-based output, on encoded `Text` values or directly on bytestrings instead.
 
+`writeFile` caused a real-world outage for @tomjaguarpaw on 2021-09-24.
+
 See also [this blogpost](https://www.snoyman.com/blog/2016/12/beware-of-readfile/).
 
 ### Functions related to `Text`-based IO
