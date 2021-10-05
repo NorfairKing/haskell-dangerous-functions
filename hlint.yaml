@@ -28,6 +28,7 @@
   - {name: Data.List.last, within: []} # Partial
   - {name: 'Data.List.!!', within: []} # Partial
   - {name: Data.List.genericIndex, within: []} # Partial
+  - {name: Data.List.genericLength, within: []} # Use `fromIntegeral . length` instead
 
   # Same, but for Data.Text
   - {name: Data.Text.head, within: []}
