@@ -529,6 +529,17 @@ Prelude Data.Ord Data.Int> succ (127 :: Int8)
 *** Exception: Enum.succ{Int8}: tried to take `succ' of maxBound
 ```
 
+#### `fromString` on `ByteString`
+
+When converting to `ByteString`, `fromString` silently truncates to the bottom eight bits, turning your string into garbage.
+
+```haskell
+> print "⚠"
+"\9888"
+> print (fromString "⚠" :: ByteString)
+"\160"
+```
+
 ### The [`enumFromTo`](https://hackage.haskell.org/package/base-4.15.0.0/docs/GHC-Enum.html#v:enumFromTo)-related functions
 
 These also suffer from the same problem as `toEnum` (see above)
