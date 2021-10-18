@@ -46,7 +46,7 @@
   - {name: Data.Text.minimum, within: []}
 
   - {name: GHC.Enum.pred, within: []} # Partial
-  - {name: GHC.Enum.suc, within: []} # Partial
+  - {name: GHC.Enum.succ, within: []} # Partial
   - {name: GHC.Enum.toEnum, within: []} # Partial
   - {name: GHC.Enum.fromEnum, within: []} # Does not do what you think it does.
   - {name: GHC.Enum.enumFrom, within: []} # Does not do what you think it does, depending on the type.
@@ -102,7 +102,7 @@
 
   - {name: Data.Text.Encoding.decodeUtf8, within: []} # Throws on invalid UTF8
 
-  - {name: fromJust, within: []} # Partial
+  - {name: fromJust, within: [], message: 'Partial'} # Partial
 
   # Does silent truncation:
   # > fromIntegral (300 :: Word) :: Word8
