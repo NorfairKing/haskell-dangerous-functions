@@ -59,7 +59,8 @@
 
   - {name: nub, within: []} # O(n^2)
 
-  - {name: Data.Foldable.foldl, within: []} # Lazy. Use foldl' instead.
+  - {name: Data.Foldable.foldl, within: []} # Lazy accumulator. Use foldl' instead.
+  - {name: Data.Foldable.foldMap, within: []} # Lazy accumulator. Use foldMap' instead.
   - {name: Data.Foldable.sum, within: []} # Lazy accumulator
   - {name: Data.Foldable.product, within: []} # Lazy accumulator
 

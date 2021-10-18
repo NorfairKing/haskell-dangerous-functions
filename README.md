@@ -626,9 +626,9 @@ See also [this blogpost](https://www.snoyman.com/blog/2016/12/beware-of-readfile
 Trail of destruction:
 https://gitlab.haskell.org/ghc/ghc/-/issues/8173#note_236901
 
-#### `foldl`
+#### `foldl` and `foldMap`
 
-Lazy. Use `foldl'` instead.
+Lazy. Use `foldl'` and `foldMap'` instead.
 
 See [this excellent explanation](https://github.com/hasura/graphql-engine/pull/2933#discussion_r328821960).
 
