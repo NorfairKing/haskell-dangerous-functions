@@ -2,7 +2,11 @@
 # For a how-to-use and the latest version of this file go to:
 # https://github.com/NorfairKing/haskell-dangerous-functions/
 
+- ignore: { name: "Use newtype instead of data" }
+- ignore: { name: "Use const" } # Using (const a) instead of (\_ -> a) is usually less clear instead of more clear.
+- ignore: { name: "Reduce duplication" } # Doesn't actually help. Especially in tests.
 - ignore: { name: "Use unless" }
+- ignore: { name: "Use if" } # Sometimes using a case-match is fine.
 - ignore: { name: "Use tuple-section" }
 
 - functions:
@@ -19,6 +23,7 @@
   - {name: forkProcess, within: []}
 
   - {name: undefined, within: []} # Purposely fails. Deal with errors appropriately instead.
+  - {name: error, within: []} # Purposely fails. Deal with errors appropriately instead.
   - {name: throw, within: []} # Don't throw from pure code, use throwIO instead.
   - {name: Prelude.error, within: []}
 
@@ -58,6 +63,7 @@
   - {name: either, within: []} # Really confusing, just use a case-match.
 
   - {name: nub, within: []} # O(n^2)
+  - {name: Data.List.concat, within: []} # O(n^2)
 
   - {name: Data.Foldable.foldl, within: []} # Lazy accumulator. Use foldl' instead.
   - {name: Data.Foldable.foldMap, within: []} # Lazy accumulator. Use foldMap' instead.
@@ -103,7 +109,7 @@
 
   - {name: Data.Text.Encoding.decodeUtf8, within: []} # Throws on invalid UTF8
 
-  - {name: fromJust, within: [], message: 'Partial'} # Partial
+  - {name: fromJust, within: []} # Partial
 
   # Does silent truncation:
   # > fromIntegral (300 :: Word) :: Word8
@@ -119,6 +125,7 @@
 
 - modules:
   - { name: Control.Lens, within: [] }
+  - { name: Lens.Micro, within: [] }
 
 - extensions:
   - { name: DeriveAnyClass, within: [] } # Dangerous
