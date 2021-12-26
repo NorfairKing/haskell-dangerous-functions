@@ -455,6 +455,9 @@ In such a case, it performs silent truncation:
 44
 ```
 
+`fromIntegral` has also had some very nasty bugs that involved the function behaving differently (even partially) depending on optimisation levels.
+See [GHC #20066](https://gitlab.haskell.org/ghc/ghc/-/issues/20066) and [GHC #19345](https://gitlab.haskell.org/ghc/ghc/-/issues/19345).
+
 Avoid general coercion functions but write specific ones instead, as long as the type of the result is bigger than the type of the input.
 
 ```
