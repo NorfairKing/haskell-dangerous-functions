@@ -76,6 +76,9 @@
   # https://github.com/NorfairKing/haskell-WAT#real-double
   - {name: realToFrac, within: []}
 
+  # Constructs rationals, which is either wrong or a bad idea.
+  - {name: '%', within: []}
+
   # Don't use string for command-line output.
   - {name: System.IO.putChar, within: []}
   - {name: System.IO.putStr, within: []}

@@ -446,6 +446,45 @@ Avoid general coercion functions and anything to do with `Double` in particular.
 
 See also https://github.com/NorfairKing/haskell-WAT#real-double
 
+#### [`%`](https://hackage.haskell.org/package/base-4.16.1.0/docs/Data-Ratio.html#v:-37-): Rational values
+
+The `%` function is used to construct rational values:
+
+``` haskell
+data Ratio a = !a :% !a  deriving Eq
+```
+``` haskell
+Prelude Data.Int Data.Ratio> 1 % 12 :: Ratio Int8
+1 % 12
+```
+
+There are constraints on the two values in Rational values:
+
+Recall (from the docs); "The numerator and denominator have no common factor and the denominator is positive."
+
+When using fixed-size underlying types, you can end up with invalid `Ratio` values using `Num` functions:
+
+```
+Prelude Data.Int Data.Ratio> let r = 1 % 12 :: Ratio Int8
+Prelude Data.Int Data.Ratio> r - r
+0 % (-1)
+Prelude Data.Int Data.Ratio> r + r
+3 % (-14)
+> r * r
+1 % (-112)
+```
+
+When using arbitrarily-sized underlying types, you can end up with arbitrary runtime:
+
+```
+(1 % 100)^10^10^10 :: Rational -- Prepare a way to kill this before you try it out.
+```
+
+`Ratio` values create issues for any underlying type, so avoid them.
+Consider whether you really need any rational values.
+If you _really_ do, and you have a clear maximum value, consider using fixed-point values.
+If that does not fit your use-case, consider using `Double` with all its caveats.
+
 #### [`fromIntegral`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromIntegral)
 
 `fromIntegral` has no constraints on the size of the output type, so that output type could be smaller than the input type.
