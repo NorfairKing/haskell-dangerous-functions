@@ -181,6 +181,10 @@ Use `listToMaybe` instead.
 
 Applies to [Data.Text.head](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:head) as well
 
+Trail of destruction:
+
+* [`Prelude.head: empty list` makes hls unusable until restart](https://github.com/haskell/haskell-language-server/issues/1618)
+
 #### [`tail`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:tail)
 
 Throws an exception in pure code when the input is an empty list.
