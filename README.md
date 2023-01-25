@@ -489,12 +489,17 @@ Consider whether you really need any rational values.
 If you _really_ do, and you have a clear maximum value, consider using fixed-point values.
 If that does not fit your use-case, consider using `Double` with all its caveats.
 
-#### [`fromIntegral`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromIntegral)
+#### [`fromIntegral`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromIntegral) and [`fromInteger`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromInteger)
 
 `fromIntegral` has no constraints on the size of the output type, so that output type could be smaller than the input type.
 In such a case, it performs silent truncation:
 ```
 > fromIntegral (300 :: Word) :: Word8
+44
+```
+Similarly for `fromInteger`:
+```
+> fromInteger 300 :: Word8
 44
 ```
 
@@ -683,7 +688,7 @@ Lazy accumulator, but is fixed as of [GHC 9.0.1](https://gitlab.haskell.org/ghc/
 
 #### `genericLength`
 
-`genericLength` consumes O(n) stack space when returning a strict numeric type.  Lazy numeric types (e.g. `data Nat = Z | S Nat`) are *very* rare in practice so `genericLength` is probably not what you want.  Consider `fromIntegral . length` instead.
+`genericLength` consumes O(n) stack space when returning a strict numeric type.  Lazy numeric types (e.g. `data Nat = Z | S Nat`) are *very* rare in practice so `genericLength` is probably not what you want.
 
 
 ### Confusing functions

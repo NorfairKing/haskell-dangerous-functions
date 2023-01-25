@@ -28,7 +28,7 @@
   - {name: Data.List.last, within: []} # Partial
   - {name: 'Data.List.!!', within: []} # Partial
   - {name: Data.List.genericIndex, within: []} # Partial
-  - {name: Data.List.genericLength, within: []} # Use `fromIntegeral . length` instead
+  - {name: Data.List.genericLength, within: []}
 
   # Same, but for Data.Text
   - {name: Data.Text.head, within: []}
@@ -112,6 +112,7 @@
   # > fromIntegral (300 :: Word) :: Word8
   # 44
   - {name: fromIntegral, within: []}
+  - {name: fromInteger, within: []}
 
 
   - {name: 'read', within: []} # Partial, use `Text.Read.readMaybe` instead.
