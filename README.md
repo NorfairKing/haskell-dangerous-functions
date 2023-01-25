@@ -489,12 +489,17 @@ Consider whether you really need any rational values.
 If you _really_ do, and you have a clear maximum value, consider using fixed-point values.
 If that does not fit your use-case, consider using `Double` with all its caveats.
 
-#### [`fromIntegral`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromIntegral)
+#### [`fromIntegral`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromIntegral) and [`fromInteger`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Prelude.html#v:fromInteger)
 
 `fromIntegral` has no constraints on the size of the output type, so that output type could be smaller than the input type.
 In such a case, it performs silent truncation:
 ```
 > fromIntegral (300 :: Word) :: Word8
+44
+```
+Similarly for `fromInteger`:
+```
+> fromInteger 300 :: Word8
 44
 ```
 
