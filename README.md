@@ -683,7 +683,7 @@ Lazy accumulator, but is fixed as of [GHC 9.0.1](https://gitlab.haskell.org/ghc/
 
 #### `genericLength`
 
-`genericLength` consumes O(n) stack space when returning a strict numeric type.  Lazy numeric types (e.g. `data Nat = Z | S Nat`) are *very* rare in practice so `genericLength` is probably not what you want.  Consider `fromIntegral . length` instead.
+`genericLength` consumes O(n) stack space when returning a strict numeric type.  Lazy numeric types (e.g. `data Nat = Z | S Nat`) are *very* rare in practice so `genericLength` is probably not what you want.
 
 
 ### Confusing functions
