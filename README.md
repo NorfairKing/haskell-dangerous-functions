@@ -873,7 +873,7 @@ Like `unsafePerformIO` but is even less safe.
 
 #### [`unsafeInterleaveIO`](http://hackage.haskell.org/package/base-4.14.1.0/docs/System-IO-Unsafe.html#v:unsafeInterleaveIO)
 
-Used to define lazy IO, which should be avoided, uses `unsafeDupablePerformIO`.
+Used to define lazy IO, which should be avoided.
 
 #### [`unsafeFixIO`](http://hackage.haskell.org/package/base-4.14.1.0/docs/System-IO-Unsafe.html#v:unsafeFixIO)
 
