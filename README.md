@@ -194,7 +194,7 @@ Prelude> tail []
 *** Exception: Prelude.tail: empty list
 ```
 
-Use a case-match instead.
+Use `drop 1` or a case-match instead.
 
 Applies to [Data.Text.tail](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:tail) as well
 
@@ -208,7 +208,8 @@ Prelude> init []
 ```
 
 Use a case-match on the `reverse` of the list instead, but keep in mind that it uses linear time in the length of the list.
-Use a different data structure if that is an issue for you.
+Use a different data structure if that is an issue for you. 
+Since `base-4.19` you can also employ [`unsnoc`](https://hackage.haskell.org/package/base/docs/Data-List.html#v:unsnoc).
 
 Applies to [Data.Text.init](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:init) as well
 
@@ -223,6 +224,7 @@ Prelude> last []
 
 Use a `listToMaybe . reverse` instead, but keep in mind that it uses linear time in the length of the list.
 Use a different data structure if that is an issue for you.
+Since `base-4.19` you can also employ [`unsnoc`](https://hackage.haskell.org/package/base/docs/Data-List.html#v:unsnoc).
 
 Applies to [Data.Text.last](https://hackage.haskell.org/package/text-1.2.3.2/docs/Data-Text.html#v:last) as well
 
@@ -243,7 +245,8 @@ Prelude> [1,2,3] !! (-1)
 ```
 
 The right way to index is to not use a list, because list indexing takes `O(n)` time, even if you find a safe way to do it.
-If you _really_ need to deal with _list_ indexing (you don't), then you can use a combination of [`take`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:take) and [`drop`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:drop).
+If you _really_ need to deal with _list_ indexing (you don't), then you can use a combination of [`take`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:take) and [`drop`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-List.html#v:drop)
+or (since `base-4.19`) [`'!?'`](https://hackage.haskell.org/package/base/docs/Data-List.html#v:-33--63-).
 
 #### [`fromJust`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-Maybe.html#v:fromJust)
 
@@ -666,6 +669,8 @@ See also [this blogpost](https://www.snoyman.com/blog/2016/12/beware-of-readfile
 These have the same issues as `readFile`.
 
 See also [this blogpost](https://www.snoyman.com/blog/2016/12/beware-of-readfile/).
+
+Since `text-2.1` one can replace `Data.Text.IO` with [`Data.Text.IO.Utf8`](https://hackage.haskell.org/package/text-2.1/docs/Data-Text-IO-Utf8.html).
 
 
 ### Functions with unexpected performance characteristics
