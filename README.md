@@ -884,6 +884,15 @@ Used to define lazy IO, which should be avoided.
 
 Unsafe version of `fixIO`.
 
+#### [`unsafeCoerce`](https://hackage.haskell.org/package/base-4.21.0.0/docs/Unsafe-Coerce.html#v:unsafeCoerce)
+
+Can cause segfaults. All bets are off:
+
+```
+ghci> (unsafeCoerce (5 :: Int) :: (Int -> String)) 5
+"[1]    3415638 segmentation fault (core dumped)  ghci
+```
+
 ### Deprecated
 
 #### `return`

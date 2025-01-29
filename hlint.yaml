@@ -10,6 +10,7 @@
   - {name: unsafeInterleaveIO, within: []} # Unsafe
   - {name: unsafeFixIO, within: []} # Unsafe
   - {name: unsafePerformIO, within: []} # Unsafe
+  - {name: unsafeCoerce, within: []} # Unsafe
 
   # _VERY_ hard to get right, use the async library instead.
   # See also https://github.com/informatikr/hedis/issues/165
