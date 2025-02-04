@@ -677,10 +677,14 @@ Since `text-2.1` one can replace `Data.Text.IO` with [`Data.Text.IO.Utf8`](https
 
 #### `nub`
 
-`O(n^2)`, use [`ordNub`](https://github.com/nh2/haskell-ordnub) instead
+`O(n^2)`, use [`ordNub`](https://github.com/nh2/haskell-ordnub) instead.
 
 Trail of destruction:
 https://gitlab.haskell.org/ghc/ghc/-/issues/8173#note_236901
+
+#### `Data.List.concat`
+
+`O(n^2)`.
 
 #### `foldl` and `foldMap`
 
@@ -717,6 +721,9 @@ This is really confusing in practice use [`when`](https://hackage.haskell.org/pa
 Either takes two functions as arguments, one for the `Left` case and one for the `Right` case.
 Which comes first? I don't know either, just use a case-match instead.
 
+#### `const`
+
+Using `const a` instead of `\_ -> a` is usually less clear instead of more clear.
 
 ### Modules or packages to avoid
 
@@ -731,6 +738,10 @@ It also has an ENORMOUS dependency footprint.
 
 If you need to use a dependency that uses lenses without the `lens` dependency, you can use `microlens` to stick with the (relatively) simple parts of lenses.
 If you need to use a dependency that uses `lens`, go ahead and use `lens`, but stick with `view` (`^.`) and `set` (`.~`).
+
+#### [`Lens.Micro`](https://hackage.haskell.org/package/microlens)
+
+Even though `microlens` is not as bad as `lens` it should still be avoided by default.
 
 ### Extensions to avoid
 
@@ -900,3 +911,8 @@ ghci> (unsafeCoerce (5 :: Int) :: (Int -> String)) 5
 Use `pure` instead.
 See https://gitlab.haskell.org/ghc/ghc/-/wikis/proposal/monad-of-no-return
 
+## Other
+
+### `Reduce duplication`
+
+Althought not a function, this hint doesn't actually help, especially not in tests.
