@@ -312,7 +312,7 @@ Prelude Data.Word> pred 0 :: Word8
 *** Exception: Enum.pred{Word8}: tried to take `pred' of minBound
 ```
 
-Use something like (`succMay`](https://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:succMay).
+Use something like [`succMay`](https://hackage.haskell.org/package/safe-0.3.19/docs/Safe.html#v:succMay).
 
 #### Functions involving division
 
